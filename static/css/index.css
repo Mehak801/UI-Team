@@ -1,0 +1,183 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.main_body{
+    width: 100vw;
+    height: 100vh;
+    background: url(../images/background.jpg) no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.join_call_container{
+    width: 55vw;
+    height: 73vh;
+    position: relative;
+    background-color: rgb(0, 0, 0, 0.7);
+    color: wheat;
+    text-align: center;
+}
+
+.join_call_heading{
+    height: 10%;
+    padding: 1rem;
+}
+
+.join_call_content{
+    height: 70%;
+    display: flex;
+}
+
+.join_call_left{
+    width: 50%;
+    height: 120%;
+}
+
+.row div{
+    width: max-content;
+    font-size: 0.8rem;
+}
+
+.row{
+    height: 100%;
+    width: 100%;
+    display: relative;
+    align-items: center;
+    justify-content: center;
+}
+
+.join_call_left p{
+    margin-top: 0.3rem;
+    width: 5rem;
+}
+
+.join_call_buttons{
+    height: 4rem;
+    width: 4rem;
+    background-color: whitesmoke;
+    color: rgb(95, 95, 95);
+    border-radius: 40%;
+    border: none;
+}
+
+.join_call_buttons i{
+    font-size: 1.2rem;
+}
+
+#new_call_button{
+    background-color: rgb(128, 207, 2);
+}
+
+.join_call_buttons:hover{
+    border: 3px solid rgb(128, 207, 2);
+}
+
+.login_form_div{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+h2{
+    position: absolute;
+    top: 2rem;
+    left:2rem;
+}
+
+form{
+    position: absolute;
+    top: 5rem;
+    left: 2rem;
+    padding-right: 2rem;
+    text-align: left;
+}
+
+form label{
+    padding: 0.1rem 0.5rem;
+}
+
+.form_input{
+    width: 100%;
+    background-color: rgba(24, 23, 23, 0.8);
+    border: 1px solid whitesmoke;
+    padding: 0.3rem 0.8rem;
+    border-radius: 30px;
+    outline: none;
+    color: white;
+}
+
+.form_input:focus{
+    border-color: rgb(128, 207, 2);
+}
+
+.btn_signup{
+    background-color: rgb(128, 207, 2);
+    border: 1px solid rgb(128, 207, 2);
+    width: 30%;
+    font-weight: 500;
+    border-radius: 30px;
+    outline: none;
+    margin: 1.2rem 0.2rem;
+}
+
+.btn_signup:hover{
+    background-color: transparent;
+    border: 1px solid rgb(128, 207, 2);
+    color: rgb(128, 207, 2);
+    outline: none;
+}
+
+.btn_signup::after{
+    background-color: rgb(128, 207, 2);
+    border: 1px solid rgb(128, 207, 2);
+    font-weight: 500;
+    outline: none;
+}
+
+.login_form_div a{
+    position: absolute;
+    left: 2rem;
+    font-size: 0.8rem;
+    bottom: 1rem;
+    color: rgb(128, 207, 2);
+}
+
+.join_call_right{
+    width: 50%;
+    height: 120%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.join_call_right img{
+    width: 18rem;
+    height: 15rem;
+}
+
+.join_call_right p{
+    margin: none;
+}
+
+.loginStatus{
+    position: absolute;
+    bottom: 1rem;
+    font-size: 0.8rem;
+    color: rgb(128, 207, 2);
+}
+
+.loginStatus:hover{
+    color: rgb(128, 207, 2);
+}
+
+.display_none{
+    display: none;
+}
