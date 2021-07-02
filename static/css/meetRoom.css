@@ -9,6 +9,15 @@ button:hover{
 .upper_div{
     height: 91vh;
     display: flex;
+    background-color: rgb(39, 39, 39);
+}
+
+.logo_img{
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    height: 80px;
 }
 
 .video_streaming_div{ 
@@ -16,6 +25,12 @@ button:hover{
     width: 100%;
     background-color: rgb(39, 39, 39);
     position: relative;
+}
+
+#get_personal_code{
+    position: absolute;
+    top: 0.5rem;
+    right: 1rem;
 }
 
 .remote_stream_div{
@@ -44,10 +59,6 @@ button:hover{
     height: 100%;
 }
 
-/* #chat_div{
-    width: 25%;
-} */
-
 .chat_div{
     height: 100%;
     width: 25%;
@@ -56,19 +67,25 @@ button:hover{
     box-shadow: -5px -3px 10px 5px rgba(0,0,0,0.4);
     display: flex;
     flex-direction: column;
+    font-family: 'Baloo Bhai 2', cursive;
+}
+
+.chat_only_div{
+    width: 65%;
+    position: relative;
+    left: calc(35vw/2);
 }
 
 .new_message_container {
     display: inline-flex;
     width: calc(100%-40px);
-    margin: 5px;
+    margin: 8px;
 }
 
 .new_message_input {
     width: calc(100% - 70px);
     height: 40px;
     color: #676f7a;
-    font-size: 16px;
     font-weight: 400;
     border: 1px solid #d5deeb;
     border-bottom-left-radius: 15px;
@@ -85,7 +102,7 @@ button:hover{
 
 .send_message_button {
     width: 40px;
-    height: 40px;
+    height: 34px;
     right: 0;
     bottom: 0;
     border: none;
@@ -100,7 +117,7 @@ button:hover{
     max-width: 100%;
     max-height: 100%;
 }  
-  
+ 
 .messages_container {
     flex-grow: 1;
     margin: 40px 30px;
@@ -119,6 +136,8 @@ button:hover{
     border-radius: 8px 8px 8px 0px;
     padding: 8px 13px;
     font-size: 18px;
+    display: flex;
+    align-items: center;
     color: #545c68;
     min-width: 60px;
 }
@@ -136,6 +155,8 @@ button:hover{
     border-radius: 8px 8px 8px 0px;
     padding: 8px 13px;
     color: #ffffff;
+    display: flex;
+    align-items: center;
     font-size: 18px;
     min-width: 60px;
 }
@@ -216,10 +237,6 @@ button:hover{
     font-size: 1.2rem;
     font-weight: 350;
     margin-left: 0.5rem;
-}
-
-.display_none{
-    display: none;
 }
 
 .dialog_box{
@@ -382,4 +399,8 @@ button:hover{
 
 .video_recording_buttons_container button{
     background-color: grey;
+}
+
+.display_none{
+    display: none;
 }

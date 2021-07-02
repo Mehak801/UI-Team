@@ -96,7 +96,7 @@ export const showInfoDialog = (preOfferAnswer) => {
   if (preOfferAnswer === constants.preOfferAnswer.CALL_UNAVAILABLE) {
     infoDialog = elements.getInfoDialog(
       "Join Request is not possible",
-      "Probably meeting is already full. Please try againg later"
+      "Probably meeting is already full or your meeting type is wrong."
     );
   }
 
@@ -131,9 +131,21 @@ const showChatCallElements = () => {
   );
   showElement(finishConnectionChatButtonContainer);
 
+  const callButtonsLeft = document.getElementById("call_buttons_left");
+  hideElement(callButtonsLeft);
+
+  const callButtonsRight = document.getElementById("call_buttons_right");
+  hideElement(callButtonsRight);
+  
+  const chatDiv = document.getElementById("chat_div");
+  showElement(chatDiv);
+  chatDiv.classList.add("chat_only_div");
+
+  const videoStreamingDiv = document.getElementById("video_streaming_div");
+  hideElement(videoStreamingDiv);
+  
   const newMessageInput = document.getElementById("new_message");
   showElement(newMessageInput);
-  //block panel
 };
 
 const showVideoCallElements = () => {
@@ -176,13 +188,16 @@ export const updateScreenShareButton = (screenShareActive) => {
 export const toggleMessenger = ()=>{
   const videoStreamingDiv = document.getElementById("video_streaming_div");
   const chatDiv = document.getElementById("chat_div");
+  const personalCodeBtn = document.getElementById("get_personal_code");
 
   if(chatDiv.classList.contains('display_none')){
     showElement(chatDiv);
     videoStreamingDiv.style.width = "75%";
+    personalCodeBtn.style.right = "25vw";
   }else{
     hideElement(chatDiv);
     videoStreamingDiv.style.width = "100%";
+    personalCodeBtn.style.right = "1rem";
   }
 }
 
@@ -233,7 +248,6 @@ export const switchRecordingButtons = (switchForResumeButton = false) => {
 
 // ui after hanging up
 export const updateUIAfterHangUp = (callType) => {
-
   const newMessageInput = document.getElementById("new_message");
   hideElement(newMessageInput);
 

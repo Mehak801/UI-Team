@@ -9,7 +9,11 @@ import * as recordingUtils from './recordingUtils.js'
 const socket = io("/");
 wss.registerSocketEvents(socket);
 
-webRTCHandler.getLocalPreview();
+const trick = document.getElementById("trick_box");
+if(trick.classList.contains("display_none")){
+  webRTCHandler.getLocalPreview();
+}
+
 
 //register event listener for personal code copy button
 const personalCodeCopyButton = document.getElementById(
@@ -20,6 +24,7 @@ personalCodeCopyButton.addEventListener("click", () => {
   navigator.clipboard && navigator.clipboard.writeText(personalCode);
 });
 
+// register event listeners for connection buttons
 
 const personalCodeVideoButton = document.getElementById(
   "personal_code_video_button"
@@ -36,7 +41,20 @@ personalCodeVideoButton.addEventListener("click", () => {
   webRTCHandler.sendPreOffer(callType, calleePersonalCode);
 });
 
+const personalCodeChatButton = document.getElementById(
+  "personal_code_chat_button"
+);
 
+personalCodeChatButton.addEventListener("click", () => {
+  console.log("chat button clicked");
+
+  const calleePersonalCode = document.getElementById(
+    "personal_code_input"
+  ).value;
+  const callType = constants.callType.CHAT_PERSONAL_CODE;
+
+  webRTCHandler.sendPreOffer(callType, calleePersonalCode);
+});
 
 // event listeners for video call buttons
 
@@ -78,28 +96,30 @@ const newMeetingButton =  document.getElementById('close_dialog_button')
   newMeetingButton.addEventListener('click', () => {
     ui.removeAllDialogs();
   })
-
-  
 // messenger
 
-const newMessageInput = document.getElementById("new_message_input");
-newMessageInput.addEventListener("keydown", (event) => {
-  console.log("change occured");
-  const key = event.key;
+$("#new_message_input").emojioneArea({
+  events : {
+    keydown: function (editor, event) {
+      const key = event.key;
+      const message = $(".emojionearea-editor").html();
 
-  if (key === "Enter") {
-    webRTCHandler.sendMessageUsingDataChannel(event.target.value);
-    ui.appendMessage(event.target.value, true);
-    newMessageInput.value = "";
+      if (key === "Enter") {
+        webRTCHandler.sendMessageUsingDataChannel(message);
+        ui.appendMessage(message, true);
+        $(".emojionearea-editor").html('');
+      }
+    }
   }
 });
 
 const sendMessageButton = document.getElementById("send_message_button");
 sendMessageButton.addEventListener("click", () => {
-  const message = newMessageInput.value;
+  console.log("btn clicked");
+  const message = $(".emojionearea-editor").html();
   webRTCHandler.sendMessageUsingDataChannel(message);
   ui.appendMessage(message, true);
-  newMessageInput.value = "";
+  $(".emojionearea-editor").html('');
 });
 
 //recording

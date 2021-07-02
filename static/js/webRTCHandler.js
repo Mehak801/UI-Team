@@ -25,6 +25,7 @@ export const getLocalPreview = () => {
     .getUserMedia(defaultConstraints)
     .then((stream) => {
       ui.updateLocalVideo(stream);
+      // ui.showVideoCallButtons();
       store.setCallState(constants.callState.CALL_AVAILABLE);
       store.setLocalStream(stream);
     })
@@ -33,6 +34,24 @@ export const getLocalPreview = () => {
       console.log(err);
     });
 };
+
+// const removeLocalPreview = () => {
+//   navigator.mediaDevices
+//     .getUserMedia(defaultConstraints)
+//     .then((stream) => {
+//       stream.onremovetrack = function() {
+//         console.log('Stream ended');
+//       };
+//       ui.updateLocalVideo(null);
+//       // ui.showVideoCallButtons();
+//       store.setCallState(constants.callState.CALL_AVAILABLE_ONLY_CHAT);
+//       store.setLocalStream(null);
+//     })
+//     .catch((err) => {
+//       console.log("error occured when trying to remove video tracks");
+//       console.log(err);
+//     });
+// }
 
 const createPeerConnection = () => {
   peerConection = new RTCPeerConnection(configuration);
@@ -120,9 +139,8 @@ export const sendPreOffer = (callType, calleePersonalCode) => {
 
 export const handlePreOffer = (data) => {
   const { callType, callerSocketId } = data;
-
   
-  if(!checkCallPosibility()){
+  if(checkCallPosibility(callType)===-1){
     return sendPreOfferAnswer(constants.callState.CALL_UNAVAILABLE, callerSocketId);
   }
   
@@ -151,7 +169,6 @@ const acceptCallHandler = () => {
 
 const rejectCallHandler = () => {
   console.log("call rejected");
-  // sendPreOfferAnswer();
   setIncomingCallStatesAvailable();
   sendPreOfferAnswer(constants.preOfferAnswer.CALL_REJECTED);
 };
@@ -345,16 +362,17 @@ const checkCallPosibility = (callType) => {
   const callState = store.getState().callState;
 
   if(callState === constants.callState.CALL_AVAILABLE){
-    return true;
+    if(callType === constants.callType.CHAT_PERSONAL_CODE) return -1;
+      else return 0;
   }
 
-  if(callType === constants.callType.VIDEO_PERSONAL_CODE && 
-    callState === constants.callState.CALL_AVAILABLE_ONLY_CHAT
+  if(callState === constants.callState.CALL_AVAILABLE_ONLY_CHAT
     ){
-    return false;
+      if(callType === constants.callType.VIDEO_PERSONAL_CODE) return -1;
+      else return 0;
   }
 
-  return false;
+  return -1;
 }
 
 const setIncomingCallStatesAvailable = ()=>{

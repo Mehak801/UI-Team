@@ -7,19 +7,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhai+2&display=swap" rel="stylesheet">
+  
     <link rel="stylesheet" href="./css/meetRoom.css">
+
+    <link rel="stylesheet" href="./css/emojionearea.min.css">
 
     <script src="https://kit.fontawesome.com/648f6f191c.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <div class="upper_div">
+        <img src="./images/logo_sm.png" alt="" class="logo_img"> 
 
-        <div class="video_streaming_div" id="video_streaming_div">
+        <div class="video_streaming_div" id="video_streaming_div">           
             <div class="local_stream_div">
                 <video class='local_video' id='local_video' muted autoplay></video>
             </div>
             <div id='video_placeholder' class='remote_stream_div'>
-                <!-- <img src='./utils/images/logo.png'></img> -->
             </div>
             <video class='remote_video display_none' autoplay id='remote_video'></video>  
             
@@ -38,6 +44,10 @@
             </div>
         </div>
 
+        <button class="call_button <%=newMeetingDisplay%>" id="get_personal_code">
+            <i class="fas fa-info-circle"></i>
+        </button> 
+
         <div class="chat_div display_none" id="chat_div">
             <div class='messages_container' id='messages_container'></div>
             <div class='new_message_container display_none' id='new_message'>
@@ -50,41 +60,11 @@
         
     </div>
 
-    <!-- <div class="footer_div">
-        <div class="invite_people_div"></div>
-        <div class="meet_buttons_div" id="call_buttons">
-            <button class='call_button' id='mic_button'>
-                <img src='./utils/images/mic.png' id='mic_button_image'></img>
-            </button>
-            <button class='call_button' id='camera_button'>
-                <img src='./utils/images/camera.png' id='camera_button_image'></img>
-            </button>
-            <button class='hang_up_button' id='hang_up_button'>
-                <img src='./utils/images/hangUp.png'></img>
-            </button>
-            <button class='call_button' id='screen_sharing_button'>
-                <img src='./utils/images/switchCameraScreenSharing.png'></img>
-            </button>
-            <button class='call_button' id='start_recording_button'>
-                <img src='./utils/images/recordingStart.png'></img>
-            </button>
-        </div>
-
-        <div class='finish_chat_button_container display_none' id='finish_chat_button_container'>
-            <button class='call_button_large' id='finish_chat_call_button'>
-                <img src='./utils/images/hangUp.png'></img>
-            </button>
-        </div>
-
-        
-
-        <div class="chat_button_div"></div>
-    </div> -->
-
     <div class="footer_div">
         <p id="meeting_time">00:00</p>
+
         <div class="meet_buttons">
-            <div class="left_meet_buttons">
+            <div class="left_meet_buttons" id="call_buttons_left">
                 <button class="call_button" id="mic_button">
                     <img src="./images/mic.png" alt="" id="mic_button_image">
                 </button>
@@ -98,18 +78,10 @@
                     <img src="./images/recordingStart.png" alt="">
                 </button>
             </div>
-            <div class="right_meet_buttons">
+            <div class="right_meet_buttons" id="call_buttons_right">
                 <button class="call_button" id="call_chat_button">
                     <i class="fas fa-comment-alt"></i>
                 </button>
-                <a href="/join-meeting" class=" <%=joinMeetingDisplay%>">
-                    <button class="call_button">
-                        <i class="fas fa-user-friends"></i>
-                    </button>
-                </a>   
-                <button class="call_button <%=newMeetingDisplay%>" id="get_personal_code">
-                    <i class="fas fa-user-friends"></i>
-                </button> 
                 <a href="/">
                     <button class="hangup_call_button" id="hang_up_button">
                         <img src="./images/hangUp.png" alt="">
@@ -118,6 +90,16 @@
                 </a>            
                  
             </div>
+            <div class="right_meet_buttons display_none" id="finish_chat_button_container">
+                <a href="/">
+                    <button class='hangup_call_button' id='finish_chat_call_button'>
+                        <img src='./images/hangUp.png'></img>
+                        <p>Leave</p>
+                    </button>
+                </a>
+                
+            </div>
+        
         </div>
     </div>
 
@@ -149,16 +131,27 @@
                 </div>
 
                 <div class="dialog_buttons_div">
+                    <button class='green_connecting_button <%=joinChatBtnDisplay%>' id='personal_code_chat_button'>
+                        Join chat Now
+                    </button>
                     <button class='green_connecting_button <%=joinMeetingBtnDisplay%>' id='personal_code_video_button'>
-                        Join Now
+                        Join Meeting Now
                     </button>
                 </div>
 
             </div>
         </div>
     </div>    
+    
+    <div id="trick_box" class="<%=callType%>">
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <script src='./js/meetRoom.js'></script>
 
     <script src='/socket.io/socket.io.js'></script>
+    <script src="./js/emojionearea.min.js"></script>
     <script src="./js/recordingUtils.js" type="module"></script>
     <script src='./js/constants.js' type='module'></script>
     <script src="./js/elements.js" type="module"></script>
@@ -167,7 +160,6 @@
     <script src='./js/store.js' type='module'></script>
     <script src='./js/webRTCHandler.js' type='module'></script>
     <script src='./js/main.js' type='module'></script>
-    <script src='./js/meetRoom.js'></script>
     
 </body>
 
