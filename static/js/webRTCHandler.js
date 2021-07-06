@@ -4,7 +4,7 @@ import * as ui from "./ui.js";
 import * as store from "./store.js";
 
 let connectedUserDetails;
-let peerConection;
+let peerConnection;
 let dataChannel;
 
 const defaultConstraints = {
@@ -25,7 +25,6 @@ export const getLocalPreview = () => {
     .getUserMedia(defaultConstraints)
     .then((stream) => {
       ui.updateLocalVideo(stream);
-      // ui.showVideoCallButtons();
       store.setCallState(constants.callState.CALL_AVAILABLE);
       store.setLocalStream(stream);
     })
@@ -35,30 +34,12 @@ export const getLocalPreview = () => {
     });
 };
 
-// const removeLocalPreview = () => {
-//   navigator.mediaDevices
-//     .getUserMedia(defaultConstraints)
-//     .then((stream) => {
-//       stream.onremovetrack = function() {
-//         console.log('Stream ended');
-//       };
-//       ui.updateLocalVideo(null);
-//       // ui.showVideoCallButtons();
-//       store.setCallState(constants.callState.CALL_AVAILABLE_ONLY_CHAT);
-//       store.setLocalStream(null);
-//     })
-//     .catch((err) => {
-//       console.log("error occured when trying to remove video tracks");
-//       console.log(err);
-//     });
-// }
-
 const createPeerConnection = () => {
-  peerConection = new RTCPeerConnection(configuration);
+  peerConnection = new RTCPeerConnection(configuration);
 
-  dataChannel = peerConection.createDataChannel("chat");
+  dataChannel = peerConnection.createDataChannel("chat");
 
-  peerConection.ondatachannel = (event) => {
+  peerConnection.ondatachannel = (event) => {
     const dataChannel = event.channel;
 
     dataChannel.onopen = () => {
@@ -72,7 +53,7 @@ const createPeerConnection = () => {
     };
   };
 
-  peerConection.onicecandidate = (event) => {
+  peerConnection.onicecandidate = (event) => {
     console.log("geeting ice candidates from stun server");
     if (event.candidate) {
       // send our ice candidates to other peer
@@ -84,8 +65,8 @@ const createPeerConnection = () => {
     }
   };
 
-  peerConection.onconnectionstatechange = (event) => {
-    if (peerConection.connectionState === "connected") {
+  peerConnection.onconnectionstatechange = (event) => {
+    if (peerConnection.connectionState === "connected") {
       console.log("succesfully connected with other peer");
     }
   };
@@ -95,7 +76,7 @@ const createPeerConnection = () => {
   store.setRemoteStream(remoteStream);
   ui.updateRemoteVideo(remoteStream);
 
-  peerConection.ontrack = (event) => {
+  peerConnection.ontrack = (event) => {
     remoteStream.addTrack(event.track);
   };
 
@@ -107,7 +88,7 @@ const createPeerConnection = () => {
     const localStream = store.getState().localStream;
 
     for (const track of localStream.getTracks()) {
-      peerConection.addTrack(track, localStream);
+      peerConnection.addTrack(track, localStream);
     }
   }
 };
@@ -224,8 +205,8 @@ export const handlePreOfferAnswer = (data) => {
 };
 
 const sendWebRTCOffer = async () => {
-  const offer = await peerConection.createOffer();
-  await peerConection.setLocalDescription(offer);
+  const offer = await peerConnection.createOffer();
+  await peerConnection.setLocalDescription(offer);
   wss.sendDataUsingWebRTCSignaling({
     connectedUserSocketId: connectedUserDetails.socketId,
     type: constants.webRTCSignaling.OFFER,
@@ -234,9 +215,9 @@ const sendWebRTCOffer = async () => {
 };
 
 export const handleWebRTCOffer = async (data) => {
-  await peerConection.setRemoteDescription(data.offer);
-  const answer = await peerConection.createAnswer();
-  await peerConection.setLocalDescription(answer);
+  await peerConnection.setRemoteDescription(data.offer);
+  const answer = await peerConnection.createAnswer();
+  await peerConnection.setLocalDescription(answer);
   wss.sendDataUsingWebRTCSignaling({
     connectedUserSocketId: connectedUserDetails.socketId,
     type: constants.webRTCSignaling.ANSWER,
@@ -246,13 +227,13 @@ export const handleWebRTCOffer = async (data) => {
 
 export const handleWebRTCAnswer = async (data) => {
   console.log("handling webRTC Answer");
-  await peerConection.setRemoteDescription(data.answer);
+  await peerConnection.setRemoteDescription(data.answer);
 };
 
 export const handleWebRTCCandidate = async (data) => {
   console.log("handling incoming webRTC candidates");
   try {
-    await peerConection.addIceCandidate(data.candidate);
+    await peerConnection.addIceCandidate(data.candidate);
   } catch (err) {
     console.error(
       "error occured when trying to add received ice candidate",
@@ -271,7 +252,7 @@ export const switchBetweenCameraAndScreenSharing = async (
 
   if (screenSharingActive) {
     const localStream = store.getState().localStream;
-    const senders = peerConection.getSenders();
+    const senders = peerConnection.getSenders();
 
     const sender = senders.find((sender) => {
       return sender.track.kind === localStream.getVideoTracks()[0].kind;
@@ -300,7 +281,7 @@ export const switchBetweenCameraAndScreenSharing = async (
       store.setScreenSharingStream(screenSharingStream);
 
       // replace track which sender is sending
-      const senders = peerConection.getSenders();
+      const senders = peerConnection.getSenders();
 
       const sender = senders.find((sender) => {
         return (
@@ -343,9 +324,9 @@ export const handleConnectedUserHangedUp = () => {
 }
 
 const closePeerConnectionAndResetState = () =>{
-  if(peerConection){
-    peerConection.close();
-    peerConection = null;
+  if(peerConnection){
+    peerConnection.close();
+    peerConnection = null;
   }
 
   if(connectedUserDetails.callType === constants.callType.VIDEO_PERSONAL_CODE){
@@ -382,4 +363,36 @@ const setIncomingCallStatesAvailable = ()=>{
   }else{
     store.setCallState(constants.callState.CALL_AVAILABLE_ONLY_CHAT);
   }
+}
+
+//removing all media stream
+export const handleStreamRemoval = ()=>{
+  const data = {
+    connectedUserSocketId: connectedUserDetails.socketId
+  }
+
+  wss.sendStreamRemoval(data);
+  removeVideoStreams();
+  ui.showCallElements(constants.callType.CHAT_PERSONAL_CODE);
+  ui.toggleLeaveMeetingDailog();
+}
+
+export const handleConnectedUserStreamRemoval = () => {
+  removeVideoStreams();
+  ui.showCallElements(constants.callType.CHAT_PERSONAL_CODE);
+}
+
+const removeVideoStreams = () => {
+  const localVideo = document.getElementById("local_video");
+  for (const track of localVideo.srcObject.getTracks()) {
+    track.stop();
+  }
+  ui.updateLocalVideo(null);
+  ui.updateRemoteVideo(null);
+
+  store.setCallState(constants.callState.CALL_AVAILABLE_ONLY_CHAT);
+  connectedUserDetails.callType = constants.callType.CHAT_PERSONAL_CODE;
+  store.setLocalStream(null);
+  store.setRemoteStream(null);
+  console.log('Stream ended');
 }

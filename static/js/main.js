@@ -164,4 +164,12 @@ hangUpChatButton.addEventListener('click', () => {
   webRTCHandler.handleHangUp();
 })
 
+const leaveMeetingBtn = document.getElementById("leave_meeting_button");
+leaveMeetingBtn.addEventListener("click",()=>{
+  ui.toggleLeaveMeetingDailog();
+})
 
+const removeVideo = document.getElementById("remove_video_meet");
+removeVideo.addEventListener("click", ()=>{
+  webRTCHandler.handleStreamRemoval();
+})

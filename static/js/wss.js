@@ -42,6 +42,10 @@ export const registerSocketEvents = (socket) => {
   socket.on('user-hanged-up', () => {
     webRTCHandler.handleConnectedUserHangedUp();
   });
+
+  socket.on('stream-removal', ()=>{
+    webRTCHandler.handleConnectedUserStreamRemoval();
+  });
 };
 
 export const sendPreOffer = (data) => {
@@ -61,3 +65,6 @@ export const sendUserHangedUp = (data) =>{
   socketIO.emit('user-hanged-up', data);
 }
 
+export const sendStreamRemoval = (data) => {
+  socketIO.emit('stream-removal', data);
+}

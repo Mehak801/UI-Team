@@ -189,11 +189,13 @@ export const toggleMessenger = ()=>{
   const videoStreamingDiv = document.getElementById("video_streaming_div");
   const chatDiv = document.getElementById("chat_div");
   const personalCodeBtn = document.getElementById("get_personal_code");
+  const commentRecieved = document.getElementById("comment_recieved_mark");
 
   if(chatDiv.classList.contains('display_none')){
     showElement(chatDiv);
     videoStreamingDiv.style.width = "75%";
     personalCodeBtn.style.right = "25vw";
+    hideElement(commentRecieved);
   }else{
     hideElement(chatDiv);
     videoStreamingDiv.style.width = "100%";
@@ -204,9 +206,17 @@ export const toggleMessenger = ()=>{
 // ui messages
 export const appendMessage = (message, right = false) => {
   const messagesContainer = document.getElementById("messages_container");
-  const messageElement = right
-    ? elements.getRightMessage(message)
-    : elements.getLeftMessage(message);
+  let messageElement;
+  if(right){
+    messageElement = elements.getRightMessage(message);
+  }else{
+    messageElement = elements.getLeftMessage(message);
+    const chatDiv = document.getElementById("chat_div");
+    if(chatDiv.classList.contains("display_none")){
+      const commentRecieved = document.getElementById("comment_recieved_mark");
+      showElement(commentRecieved);
+    }
+  }
   messagesContainer.appendChild(messageElement);
 };
 
@@ -264,6 +274,15 @@ export const updateUIAfterHangUp = (callType) => {
   hideElement(remoteVideo);
 
   removeAllDialogs();
+}
+
+export const toggleLeaveMeetingDailog = () => {
+  const leaveMeetingBox = document.getElementById("leave_meeting_box");
+  if(leaveMeetingBox.classList.contains("display_none")){
+    showElement(leaveMeetingBox);
+  }else{
+    hideElement(leaveMeetingBox);
+  }
 }
 
 // ui helper functions

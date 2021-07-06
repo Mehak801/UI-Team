@@ -217,6 +217,22 @@ button:hover{
     color: rgb(128, 207, 2)
 }
 
+#call_chat_button{
+    position: relative;
+}
+
+#comment_recieved_mark{
+    position: absolute;
+    top: 0.5px;
+    right: 1.5px;
+    height: 9px;
+    width: 9px;
+    z-index: 2;
+    border: 1.5px solid black;
+    border-radius: 50%;
+    background-color: rgb(128, 207, 2);
+}
+
 .hangup_call_button{
     background-color: rgb(128,0,32);
     margin: auto 2px;
@@ -399,6 +415,13 @@ button:hover{
 
 .video_recording_buttons_container button{
     background-color: grey;
+}
+
+.lg_button{
+    font-size: 1rem;
+    padding: 0.7rem;
+    width: 223px;
+    margin: 0.5rem 2rem;
 }
 
 .display_none{

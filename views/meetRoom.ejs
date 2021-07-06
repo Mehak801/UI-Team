@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>U&I Team | Meeting Room</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -81,13 +81,12 @@
             <div class="right_meet_buttons" id="call_buttons_right">
                 <button class="call_button" id="call_chat_button">
                     <i class="fas fa-comment-alt"></i>
+                    <div class="display_none" id="comment_recieved_mark"></div>
                 </button>
-                <a href="/">
-                    <button class="hangup_call_button" id="hang_up_button">
-                        <img src="./images/hangUp.png" alt="">
-                        <p>Leave</p>
-                    </button>
-                </a>            
+                <button class="hangup_call_button" id="leave_meeting_button">
+                    <img src="./images/hangUp.png" alt="">
+                    <p>Leave</p>
+                </button>   
                  
             </div>
             <div class="right_meet_buttons display_none" id="finish_chat_button_container">
@@ -143,6 +142,27 @@
         </div>
     </div>    
     
+    
+    <div class="dialog_box display_none" id="leave_meeting_box">
+        <div class = "dialog_content">
+            
+            <div class="meeting_code_div">
+                <p class='dialog_box_heading '>
+                    Do you want to...
+                </p>
+                <a href="/">
+                    <button class='green_connecting_button lg_button' id='hang_up_button'>
+                        leave the meeeting?
+                    </button>
+                </a>                
+                <button class='white_connecting_button lg_button' id='remove_video_meet'>
+                    continue with the chat?
+                </button>
+            </div>
+            
+        </div>
+    </div>
+
     <div id="trick_box" class="<%=callType%>">
     </div>
 
