@@ -10,10 +10,11 @@ const socket = io("/");
 wss.registerSocketEvents(socket);
 
 const trick = document.getElementById("trick_box");
-if(trick.classList.contains("display_none")){
+if(!trick.classList.contains("display_none")){
   webRTCHandler.getLocalPreview();
+}else{
+  ui.showPersonalCodeDialog();
 }
-
 
 //register event listener for personal code copy button
 const personalCodeCopyButton = document.getElementById(

@@ -115,6 +115,13 @@ export const removeAllDialogs = () => {
   dialog.querySelectorAll("*").forEach((dilog) => dilog.remove());
 };
 
+export  const showPersonalCodeDialog = () => {
+  const personalCodeContent = document.getElementById("personal_code_content");
+  const connectingDiv = document.getElementById("connecting_div");
+  showElement(personalCodeContent);
+  hideElement(connectingDiv);
+}
+
 export const showCallElements = (callType) => {
   if (callType === constants.callType.CHAT_PERSONAL_CODE) {
     showChatCallElements();

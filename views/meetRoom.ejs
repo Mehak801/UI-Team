@@ -15,6 +15,8 @@
 
     <link rel="stylesheet" href="./css/emojionearea.min.css">
 
+    <link rel="icon" href="./favicon.ico">
+
     <script src="https://kit.fontawesome.com/648f6f191c.js" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -109,15 +111,23 @@
                 <button class="close_dialog_button" id="close_dialog_button">X</button>
 
                 <div class='meeting_code_div <%=newMeetingDisplay%>'>
-                    <p class='dialog_box_heading '>
-                        Your personal meeting code
-                    </p>
-                    <div class="dialog_box_value">
-                        <p class='' id='personal_code_paragraph'>personal code</p>
-                        <button class='personal_code_copy_button' id='personal_code_copy_button'>
-                            <i class="fas fa-copy"></i>
-                        </button>
+                    <div id="connecting_div" class="<%=callType%>">
+                        <p class='dialog_box_heading'>
+                            Connecting to camera and audio...
+                        </p>
+                        <div class="loader"></div>
                     </div>
+                    <div id="personal_code_content" class="display_none">
+                        <p class='dialog_box_heading '>
+                            Your personal meeting code
+                        </p>
+                        <div class="dialog_box_value">
+                            <p class='' id='personal_code_paragraph'>personal code</p>
+                            <button class='personal_code_copy_button' id='personal_code_copy_button'>
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>                    
                 </div>
 
                 <div class='meeting_code_div <%=joinMeetingDisplay%>'>
