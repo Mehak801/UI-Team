@@ -3,8 +3,6 @@ U&I team is a virtual platform which allows two people to connect with each othe
 
 [Visit Website](https://cryptic-ravine-00904.herokuapp.com "U&I Team")
 
-[Watch Video Demo](https://youtu.be/TJxPAqfR6TI)
-
 # Features
  **Video call:** Allow users to connect with each other face to face, giving real time experience as if sitting in the same room.
 
